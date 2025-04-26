@@ -1,28 +1,34 @@
 #include "Teaser.h"
 
 int main() {
-    // Initialisation
-    char initial_state_str[] = "283164705";
-    Node initial_node;
-    initPuzzleState(initial_node.board, initial_state_str);
-    initial_node.g = 0;
-    initial_node.h = manhattanDistance(initial_node.board);
-    initial_node.parent = NULL;
-    initial_node.action = '\0';
+    int board[SIZE][SIZE];
+    
+    // Initialize the board with a default puzzle state
+    initPuzzleState(board, "283164705");
 
-    // Affichage initial
-    printf("État initial:\n");
-    displayBoard(initial_node.board);
+    int choice;
+    do {
+        menu();
+        printf("Enter your choice: ");
+        if (scanf("%d", &choice) != 1) {
+            printf("Invalid input. Exiting...\n");
+            break;
+        }
 
-    // Menu interactif
-    menu();
-
-    // Tests algorithmes
-    Node* solution = a_star(&initial_node);
-    if (solution) {
-        displayActionsPlan(solution);
-        free(solution);
-    }
+        switch (choice) {
+            case 1:
+                playManualMode(board);
+                break;
+            case 2:
+                playAutoMode(board);
+                break;
+            case 3:
+                printf("Exiting...\n");
+                break;
+            default:
+                printf("Invalid choice! Please select 1, 2, or 3.\n");
+        }
+    } while (choice != 3);
 
     return 0;
 }
